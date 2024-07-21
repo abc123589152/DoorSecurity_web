@@ -1,0 +1,66 @@
+{% extends "base.html"%}
+{% block title %}門禁相關設定{% endblock %}
+{%block content %}
+<h1>門禁設定修改</h1>
+<form method="POST">
+    <div class="form-horizontal">
+        <div class="form-group">
+             <div class="col-md-10">
+                <font size="5"><span class="control-label col-md-2">控制器名稱</span></font>
+                <input type="text" class="form-control col-10" id="control" name="control" value="{{ doorsetting['control'] }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <font size="5"><span class="control-label col-md-2">卡機接點</span></font>
+                <input type="text" class="form-control col-10" id="weigand" name="weigand" value="{{ doorsetting['weigand'] }}">
+                </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <font size="5"><span class="control-label col-md-2">門號</span></font>
+                <input type="text" class="form-control col-10" id="door" name="door" value="{{ doorsetting['door'] }}">
+                </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <font size="5"><span class="control-label col-md-2">磁簧接點</span></font>
+                <input type="text" class="form-control col-10" id="door_sensor" name="door_sensor" value="{{ doorsetting['door_sensor'] }}">
+                </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <font size="5"><span class="control-label col-md-2">鎖具接點</span></font>
+                <input type="text" class="form-control col-10" id="door_lock" name="door_lock" value="{{ doorsetting['door_lock'] }}">
+                </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <font size="5"><span class="control-label col-md-2">門關閉時間</span></font>
+                <input type="text" class="form-control col-10" id="reset_time" name="reset_time" value="{{ doorsetting['reset_time'] }}">
+                </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <font size="5"><span class="control-label col-md-2">備註說明</span></font>
+                <input type="text" class="form-control col-10" id="remark" name="remark" value="{{ doorsetting['remark'] }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <font size="5"><span class="control-label col-md-2">創見時間</span></font>
+                <input type="text" class="form-control col-10" id="creation_time" name="creation_time" value="{{ doorsetting['creation_time'] }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <font size="5"><span class="control-label col-md-2">修改資料時間</span></font>
+                <input type="text" class="form-control col-10" id="modification_time" name="modification_time" value="{{ now_time }}" readonly>
+                <br>
+                <input type="submit" class="btn btn-primary" value="Update">
+                <a  class="btn" style="background-color: aqua;" href="{{ url_for('doorsetting') }}">返回門禁設定</a>
+            </div>
+        </div>
+    </form>
+{%endblock%}
+

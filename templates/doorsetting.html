@@ -1,0 +1,53 @@
+{% extends "base.html"%}
+{% block title %}門禁相關設定{% endblock %}
+{%block content %}
+</br>
+<h2>門禁控制設定</h2>
+</br>
+    <div>
+        <a href="{{ url_for('doorsettinginsert') }}" class="btn btn-default" style="background-color:orange">新增</a>
+    </div>
+</br>
+    <div style="overflow: auto;width: 100%;height: 650px; /* 固定高度 */">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>id</td>
+                    <td>控制器名稱</td>
+                    <td>卡機接點</td>
+                    <td>門號</td>
+                    <td>磁簧接點</td>
+                    <td>鎖具接點</td>
+                    <td>門關閉時間</td>
+                    <td>備註說明</td>
+                    <td>建立時間</td>
+                    <td>修改時間</td>
+                    <td>修改設定</td>
+                    <td>刪除設定</td>
+                <tr>
+            </thead>
+            <tbody>
+                {% for door_read in doorsetting %}
+                <tr>
+                    <td>{{ door_read.id }}</td>
+                    <td>{{ door_read.control }}</td>
+                    <td>{{ door_read.weigand }}</td>
+                    <td>{{ door_read.door}}</td>
+                    <td>{{ door_read.door_sensor }}</td>
+                    <td>{{ door_read.door_lock }}</td>
+                    <td>{{ door_read.reset_time }}</td>
+                    <td>{{ door_read.remark }}</td>
+                    <td>{{ door_read.creation_time }}</td>
+                    <td>{{ door_read.modification_time }}</td>
+                    <td>
+                        <a href="{{ url_for('doorsettingedit', id=door_read.id) }}" class="btn btn-primary">編輯設定</a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('doorsettingdelete',id=door_read.id)}}" class="btn btn-danger deleteButton" id="deleteButton">刪除設定</a>
+                    </td>
+                {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{%endblock%}

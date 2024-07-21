@@ -1,0 +1,54 @@
+{% extends "base.html"%}
+{% block title %}門禁相關設定{% endblock %}
+{%block content %}
+</br>
+<h2>員工資訊</h2>
+</br>
+<div>
+    <a href="{{ url_for('employinsert') }}" class="btn btn-default" style="background-color:orange">新增</a>
+</div>
+</br>
+    <div style="overflow: auto;width: 100%;height: 650px; /* 固定高度 */">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>id</td>
+                    <td>名稱</td>
+                    <td>卡號</td>
+                    <td>門群組授權</td>
+                    <td>卡片狀態</td>
+                    <td>啟用時間</td>
+                    <td>過期時間</td>
+                    <td>備註</td>
+                    <td>建立時間</td>
+                    <td>修改資料時間</td>     
+                    <td>修改設定</td>
+                    <td>刪除設定</td>
+                <tr>
+            </thead>
+            <tbody>
+                {% for employ_read in employ %}
+                <tr>
+                    <td>{{ employ_read.id }}</td>
+                    <td>{{ employ_read.username }}</td>
+                    <td>{{ employ_read.cardnumber }}</td>
+                    <td>{{ employ_read.doorgroup }}</td>
+                    <td>{{ employ_read.status }}</td>
+                    <td>{{ employ_read.activation }}</td>
+                    <td>{{ employ_read.expiration }}</td>
+                    <td>{{ employ_read.remark }}</td>
+                    <td>{{ employ_read.creation_time }}</td>
+                    <td>{{ employ_read.modification_time }}</td> 
+                    <td>
+                        <a href="{{ url_for('employedit', id=employ_read.id) }}" class="btn btn-primary">編輯設定</a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('employdelete',id=employ_read.id)}}" class="btn btn-danger deleteButton" id="deleteButton">刪除設定</a>
+                    </td>
+                {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{%endblock%}
+<script src="/js/bootstrap.js"></script>
