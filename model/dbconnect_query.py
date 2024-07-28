@@ -1,10 +1,10 @@
 import mysql.connector as mysql
 def dbConnect_query(sqlCommand,params1):
     db = mysql.connect(
-    host = '172.16.1.186',
-    user = "root",
-    passwd = "1qaz@WSX",
-    database = "DoorSecurity_demo",
+    host = 'your host ip',
+    user = "mysql user",
+    passwd = "mysql password",
+    database = "DoorSecurity_demo",#Database Name
     port = "13306"
     )
     ConnectDB = db.cursor()
