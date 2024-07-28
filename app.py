@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for,jsonify
 from model.dbconnect import get_db_connection
 from mysql.connector import Error
 from model.getdatanowtime import get_now_time
 from model.dbconnect_query import dbConnect_query
 from model.dbconnect_new import dbConnect_new
+from model.dbconnect_noparams import dbConnect_noparams
 app = Flask(__name__,template_folder="templates",static_folder='static',static_url_path='/')
 dbip = '192.168.1.186'
 @app.route("/")
@@ -47,15 +48,15 @@ def employinsert():
             username = request.form['username']
             cardnumber = request.form['cardnumber']
             doorgroup = ','.join(request.form.getlist('doorgroup'))
-            status = request.form['status']
-            activation = request.form['activation']
-            expiration = request.form['expiration']
+            # status = request.form['status']
+            # activation = request.form['activation']
+            # expiration = request.form['expiration']
             remark = request.form['remark']
             creation_time = request.form['creation_time']
             cursor.execute("""
-                insert into employ(username,cardnumber,doorgroup,status,activation,expiration,remark,creation_time)
-                values(%s,%s,%s,%s,%s,%s,%s,%s)
-            """, (username, cardnumber,doorgroup,status,activation,expiration,remark,creation_time))
+                insert into employ(username,cardnumber,doorgroup,remark,creation_time)
+                values(%s,%s,%s,%s,%s)
+            """, (username, cardnumber,doorgroup,remark,creation_time))
             conn.commit()
             cursor.close()
             conn.close()
@@ -104,18 +105,18 @@ def employedit(id):
         username = request.form['username']
         cardnumber = request.form['cardnumber']
         doorgroup = ','.join(request.form.getlist('doorgroup'))
-        status = request.form['status']
-        activation = request.form['activation']
-        expiration = request.form['expiration']
+        # status = request.form['status']
+        # activation = request.form['activation']
+        # expiration = request.form['expiration']
         remark = request.form['remark']
         creation_time = request.form['creation_time']
         modification_time = request.form['modification_time']
         cursor.execute("""
             UPDATE employ 
-            SET username = %s, cardnumber = %s,doorgroup=%s,status = %s,activation= %s, expiration = %s,remark= %s, creation_time = %s ,
+            SET username = %s, cardnumber = %s,doorgroup=%s,remark= %s, creation_time = %s ,
             modification_time= %s
             WHERE id = %s
-        """, (username, cardnumber,doorgroup,status,activation,expiration,remark,creation_time,modification_time, id))
+        """, (username, cardnumber,doorgroup,remark,creation_time,modification_time, id))
         conn.commit()
         return redirect(url_for('employ'))
 
@@ -157,20 +158,20 @@ def doorsettinginsert():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     if request.method == 'POST':
-            
             try:
                 control = request.form['control']
-                weigand = request.form['weigand']
+                wiegand = request.form['wiegand']
                 door = request.form['door']
-                door_sensor = request.form['door_sensor']
+                # door_sensor = request.form['door_sensor']
                 door_lock = request.form['door_lock']
                 reset_time = request.form['reset_time']
                 remark = request.form['remark']
                 creation_time = request.form['creation_time']
+                
                 cursor.execute("""
-                    insert into doorsetting(control,weigand,door,door_sensor,door_lock,reset_time,remark,creation_time)
-                    values(%s,%s,%s,%s,%s,%s,%s,%s)
-                """, (control, weigand,door,door_sensor,door_lock,reset_time,remark,creation_time))
+                    insert into doorsetting(control,wiegand,door,door_lock,reset_time,remark,creation_time)
+                    values(%s,%s,%s,%s,%s,%s,%s)
+                """, (control, wiegand,door,door_lock,reset_time,remark,creation_time))
                 conn.commit()
                 cursor.close()
                 conn.close()
@@ -186,9 +187,9 @@ def doorsettingedit(id):
 
     if request.method == 'POST':
         control = request.form['control']
-        weigand = request.form['weigand']
+        wiegand = request.form['wiegand']
         door = request.form['door']
-        door_sensor = request.form['door_sensor']
+        # door_sensor = request.form['door_sensor']
         door_lock = request.form['door_lock']
         reset_time = request.form['reset_time']
         remark = request.form['remark']
@@ -196,10 +197,10 @@ def doorsettingedit(id):
         modification_time = request.form['modification_time']
         cursor.execute("""
             UPDATE doorsetting 
-            SET control = %s, weigand = %s, door=%s,door_sensor=%s,door_lock=%s,reset_time=%s,remark= %s,creation_time = %s ,
+            SET control = %s, wiegand = %s, door=%s,door_lock=%s,reset_time=%s,remark= %s,creation_time = %s ,
             modification_time= %s
             WHERE id = %s
-        """, (control, weigand,door,door_sensor,door_lock,reset_time,remark,creation_time,modification_time, id))
+        """, (control, wiegand,door,door_lock,reset_time,remark,creation_time,modification_time, id))
         conn.commit()
         cursor.close()
         conn.close()
@@ -327,15 +328,42 @@ def doorgroupedit(id):
 @app.route('/doorgroupdelete/<int:id>', methods=['GET', 'POST'])
 def doorgroupdelete(id):
     try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("""
-            delete from doorgroup where id = %s
-        """, (id,))
-        
-        conn.commit()
-        cursor.close()
-        conn.close()
+        #獲取id的門群組號碼
+        select_door_group_name = dbConnect_new("select groupname from doorgroup where id = %s",(id,))              
+        #update employ 裡面有包含此門群組的訊息
+        update_employ_doorgrouplist = dbConnect_new("select id,doorgroup from employ where doorgroup like %s",('%'+select_door_group_name[0][0]+'%',))
+        #Check是否是空的，如果是則不做下面更新employ doorgroup動作
+        if update_employ_doorgrouplist != []:
+            for get_id_door_name in update_employ_doorgrouplist:
+                 update_doorgroup_employ = ','.join([doorgroup for doorgroup in get_id_door_name[1].split(',') if doorgroup != select_door_group_name[0][0]])
+                 dbConnect_query("UPDATE employ SET doorgroup = %s WHERE id = %s",(update_doorgroup_employ,get_id_door_name[0]))
+        #刪除此項目
+        dbConnect_query("delete from doorgroup where id = %s",(id,))
         return redirect(url_for('doorgroup'))
     except Error as e:
         return str(f'刪除資料失敗請返回後再嘗試：{e}')
+    
+
+@app.route('/swipecardlog')
+def swipecard():
+    swipecardlog = dbConnect_noparams("select *from swipeCardLog order by id desc")
+    # conn = get_db_connection()
+    # cursor = conn.cursor(dictionary=True)
+    # cursor.execute("SELECT * FROM swipeCardLog")
+    # swipecardlog = cursor.fetchall()
+    # cursor.close()
+    # conn.close()
+    return render_template('doors/swipecardlog.html', swipecardlog=swipecardlog)
+    #return str(swipecardlog)
+
+@app.route('/swipecardlogreturn',methods=['GET'])
+def swipecardlogreturn():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM swipeCardLog where DATE(swipetime) = CURDATE() order by id desc")
+    swipecardlog = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return jsonify(swipecardlog)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5001)

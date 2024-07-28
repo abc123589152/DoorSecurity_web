@@ -1,0 +1,39 @@
+{% extends "base.html"%}
+{%block content %}
+</br>
+<h2>刷卡資訊</h2>
+</br>
+<div class="form-group">
+    <label for="searchInput">輸入關鍵字搜索:</label>
+    <input type="text" class="form-control" id="searchInput" onkeyup="filterTable()" placeholder="搜索...">
+</div>
+</br>
+    <div style="overflow: auto;width: 100%;height: 650px; /* 固定高度 */">
+        <table class="table" id="dataTable">
+            <thead>
+                <tr>
+                    <td>id</td>
+                    <td>員工姓名</td>
+                    <td>員工卡號</td>
+                    <td>門名稱</td>
+                    <td>門敘述</td>
+                    <td>權限驗證</td>
+                    <td>刷卡時間</td>
+                <tr>
+            </thead>
+            <tbody>
+                {% for swipecardlog_read in swipecardlog %}
+                <tr>
+                    <td>{{ swipecardlog_read[0] }}</td>
+                    <td>{{ swipecardlog_read[1] }}</td>
+                    <td>{{ swipecardlog_read[2] }}</td>
+                    <td>{{ swipecardlog_read[3] }}</td>
+                    <td>{{ swipecardlog_read[4] }}</td>
+                    <td>{{ swipecardlog_read[5] }}</td>
+                    <td>{{ swipecardlog_read[6] }}</td>
+                {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{%endblock%}

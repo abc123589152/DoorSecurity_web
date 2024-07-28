@@ -5,6 +5,6 @@ def get_db_connection():
         host="172.16.1.186",
         user="root",
         password="1qaz@WSX",
-        database="DoorSecurity",
+        database="DoorSecurity_demo",
         port="13306"
     )

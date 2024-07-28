@@ -13,8 +13,15 @@
         <div class="form-group">
             <div class="col-md-10">
                 <font size="5"><span class="control-label col-md-2">卡機接點</span></font>
-                <input type="text" class="form-control col-10" id="weigand" name="weigand" required>
-                </div>
+            </div>
+            <div class="col-md-10">
+                <select id="wiegand" name="wiegand" class="form-control col-10" required>
+                    <option value="uart1">uart1</option>
+                    <option value="uart2">uart2</option>
+                    <option value="uart3">uart3</option>
+                    <option value="uart4">uart4</option>
+                </select>
+            </div>
         </div>
         <div class="form-group">
             <div class="col-md-10">
@@ -22,17 +29,31 @@
                 <input type="text" class="form-control col-10" id="door" name="door" required>
                 </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <div class="col-md-10">
                 <font size="5"><span class="control-label col-md-2">磁簧接點</span></font>
-                <input type="text" class="form-control col-10" id="door_sensor" name="door_sensor" required>
-                </div>
-        </div>
+            </div>
+            <div class="col-md-10">
+                <select id="door_sensor" name="door_sensor" class="form-control col-10" required>
+                    <option value="16">16</option>
+                    <option value="19">19</option>
+                    <option value="22">22</option>
+                    <option value="26">26</option>
+                </select>
+            </div>
+        </div> -->
         <div class="form-group">
             <div class="col-md-10">
                 <font size="5"><span class="control-label col-md-2">鎖具接點</span></font>
-                <input type="text" class="form-control col-10" id="door_lock" name="door_lock" required>
-                </div>
+            </div>
+            <div class="col-md-10">
+                <select id="door_lock" name="door_lock" class="form-control col-10" required>
+                    <option value="18">18</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                </select>
+            </div>
         </div>
         <div class="form-group">
             <div class="col-md-10">
@@ -56,5 +77,10 @@
             </div>
         </div>
     </form>
+{% if alert_message %}
+<script>
+    alert('有相同的請修改');
+</script>
+{% endif %}
 {%endblock%}
 

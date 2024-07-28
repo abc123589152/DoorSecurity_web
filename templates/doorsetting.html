@@ -2,7 +2,7 @@
 {% block title %}門禁相關設定{% endblock %}
 {%block content %}
 </br>
-<h2>門禁控制設定</h2>
+<h2>門禁設定</h2>
 </br>
     <div>
         <a href="{{ url_for('doorsettinginsert') }}" class="btn btn-default" style="background-color:orange">新增</a>
@@ -16,7 +16,7 @@
                     <td>控制器名稱</td>
                     <td>卡機接點</td>
                     <td>門號</td>
-                    <td>磁簧接點</td>
+                    <!-- <td>磁簧接點</td> -->
                     <td>鎖具接點</td>
                     <td>門關閉時間</td>
                     <td>備註說明</td>
@@ -31,9 +31,9 @@
                 <tr>
                     <td>{{ door_read.id }}</td>
                     <td>{{ door_read.control }}</td>
-                    <td>{{ door_read.weigand }}</td>
+                    <td>{{ door_read.wiegand }}</td>
                     <td>{{ door_read.door}}</td>
-                    <td>{{ door_read.door_sensor }}</td>
+                    <!-- <td>{{ door_read.door_sensor }}</td> -->
                     <td>{{ door_read.door_lock }}</td>
                     <td>{{ door_read.reset_time }}</td>
                     <td>{{ door_read.remark }}</td>

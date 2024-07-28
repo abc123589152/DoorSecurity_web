@@ -4,7 +4,7 @@ def dbConnect_new(sqlCommand,params1):
     host = '172.16.1.186',
     user = "root",
     passwd = "1qaz@WSX",
-    database = "DoorSecurity",
+    database = "DoorSecurity_demo",
     port = "13306"
     )
     ConnectDB = db.cursor()

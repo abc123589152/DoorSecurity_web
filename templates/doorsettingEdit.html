@@ -13,8 +13,31 @@
         <div class="form-group">
             <div class="col-md-10">
                 <font size="5"><span class="control-label col-md-2">卡機接點</span></font>
-                <input type="text" class="form-control col-10" id="weigand" name="weigand" value="{{ doorsetting['weigand'] }}">
-                </div>
+            </div>
+            <div class="col-md-10">
+                <select id="wiegand" name="wiegand" class="form-control col-10" required>
+                    {% if doorsetting['wiegand'] == 'uart1' %}
+                    <option value="uart1" selected>uart1</option>
+                    {% else %}
+                    <option value="uart1">uart1</option>
+                    {% endif%}
+                    {% if doorsetting['wiegand'] == 'uart2' %}
+                    <option value="uart2" selected>uart2</option>
+                    {% else %}
+                    <option value="uart2">uart2</option>
+                    {% endif%}
+                    {% if doorsetting['wiegand'] == 'uart3' %}
+                    <option value="uart3" selected>uart3</option>
+                    {% else %}
+                    <option value="uart3">uart3</option>
+                    {% endif%}
+                    {% if doorsetting['wiegand'] == 'uart4' %}
+                    <option value="uart4" selected>uart4</option>
+                    {% else %}
+                    <option value="uart4">uart4</option>
+                    {% endif%}
+                </select>
+            </div>
         </div>
         <div class="form-group">
             <div class="col-md-10">
@@ -22,17 +45,41 @@
                 <input type="text" class="form-control col-10" id="door" name="door" value="{{ doorsetting['door'] }}">
                 </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <div class="col-md-10">
                 <font size="5"><span class="control-label col-md-2">磁簧接點</span></font>
                 <input type="text" class="form-control col-10" id="door_sensor" name="door_sensor" value="{{ doorsetting['door_sensor'] }}">
-                </div>
-        </div>
+            </div>
+        </div> -->
         <div class="form-group">
             <div class="col-md-10">
                 <font size="5"><span class="control-label col-md-2">鎖具接點</span></font>
-                <input type="text" class="form-control col-10" id="door_lock" name="door_lock" value="{{ doorsetting['door_lock'] }}">
-                </div>
+                
+            </div>
+            <div class="col-md-10">
+                <select id="door_lock" name="door_lock" class="form-control col-10" required>
+                    {% if doorsetting['door_lock'] == '18' %}
+                    <option value="18" selected>18</option>
+                    {% else %}
+                    <option value="18">18</option>
+                    {% endif%}
+                    {% if doorsetting['door_lock'] == '23' %}
+                    <option value="23" selected>23</option>
+                    {% else %}
+                    <option value="23">23</option>
+                    {% endif%}
+                    {% if doorsetting['door_lock'] == '24' %}
+                    <option value="24" selected>24</option>
+                    {% else %}
+                    <option value="24">24</option>
+                    {% endif%}
+                    {% if doorsetting['door_lock'] == '25' %}
+                    <option value="25" selected>25</option>
+                    {% else %}
+                    <option value="25">25</option>
+                    {% endif%}
+                </select>
+            </div>
         </div>
         <div class="form-group">
             <div class="col-md-10">
